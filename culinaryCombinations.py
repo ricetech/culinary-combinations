@@ -5,16 +5,29 @@
 from random import randint
 from collections import Counter
 
+veggies = ["Spinach", "Kale", "Carrot", "Bell Pepper", "Celery", "Lettuce", "Onion", "Broccoli"]  # 8
+carbs = ["White Bread", "Spaghetti", "Bagel", "Tortilla", "Rice", "Cracker", "Waffle", "Oatmeal"]
+proteins = ["Beef", "Pork", "Ham", "Bacon", "Shrimp", "Lobster"]  # 6
+dairy = []
+fruits = ["Apple", "Grape", "Strawberry", "Pear", "Tomato", "Kiwi"]  # 6
+sauces = ["Ranch", "Caesar", "Tabasco", "Balsamic Vinegar"]  # 4
+    "proteins": proteins,
+    "dairy": dairy,
+    "fruits": fruits,
+    "sauces": sauces,
+    "spices": spices
+}
 
-class Player:
+
+class Contestant:
     name = ""
     points = 0
     pos = 0
-    ingredients = Counter(["proteins", "veggies", "veggies", "carbs", "sauces"])
+    ingredients = Counter()
 
 
 def input_check(low, high):
-    while False:
+    while True:
         try:
             check = int(input())
 
@@ -50,25 +63,9 @@ def actions(pos):  # Combine with pantry() and rand_event()
 
 
 def pantry():
-    # Changing the number of items
-    veggies = ["Spinach", "Kale", "Carrot", "Bell Pepper", "Celery", "Lettuce", "Onion", "Broccoli"]  # 8
-    carbs = ["White Bread", "Spaghetti", "Bagel", "Tortilla", "Rice", "Cracker", "Waffle", "Oatmeal"]  # 8
-    proteins = ["Beef", "Pork", "Ham", "Bacon", "Shrimp", "Lobster"]  # 6
-    fruits = ["Apple", "Grape", "Strawberry", "Pear", "Tomato", "Kiwi"]  # 6
-    sauces = ["Ranch", "Caesar", "Tabasco", "Balsamic Vinegar"]  # 4
+    global categories
 
-    category = randint(1, 32)
-
-    if 1 <= category <= 8:
-        category = veggies
-    elif 9 <= category <= 16:
-        category = carbs
-    elif 17 <= category <= 22:
-        category = proteins
-    elif 23 <= category <= 28:
-        category = fruits
-    elif 29 <= category <= 32:
-        category = sauces
+    category = randint(1, len(categories))
 
     card = randint(0, len(category) - 1)
 
@@ -83,14 +80,14 @@ def random_event():
 roundCurrent = 1
 roundLimit = 5
 
-print("Number of players:")
+print("Number of contestants:")
 playerNum = input_check(1, 20)
-players = [Player() for i in range(playerNum)]
+players = [Contestant() for i in range(playerNum)]
 
 for p in players:
-    p.name = input("Player " + str(p) + ": Please enter your name: \n")
+    p.name = input("Contestant " + str(p) + ": Please enter your name: \n")
     if p.name == "" or " ":
-        p.name = "Player"
+        p.name = "Contestant"
 
 for roundCurrent in range(1, roundLimit):
     for p in players:
