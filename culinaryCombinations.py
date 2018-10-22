@@ -11,6 +11,11 @@ proteins = ["Beef", "Pork", "Ham", "Bacon", "Shrimp", "Lobster"]  # 6
 dairy = []
 fruits = ["Apple", "Grape", "Strawberry", "Pear", "Tomato", "Kiwi"]  # 6
 sauces = ["Ranch", "Caesar", "Tabasco", "Balsamic Vinegar"]  # 4
+spices = []
+
+categories = {
+    "veggies": veggies,
+    "carbs": carbs,
     "proteins": proteins,
     "dairy": dairy,
     "fruits": fruits,
