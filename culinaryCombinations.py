@@ -40,7 +40,7 @@ def actions(pos):  # Combine with pantry() and rand_event()
     # Define spaces where a random event occurs
     randEvent = (17, 18, 19, 20, 21)
     if pos == start:
-        return "s"
+        return "s"  # Replace with actual actions
     if pos in food:
         return "f"
     if pos in randEvent:
