@@ -5,13 +5,13 @@
 from random import randint, choice
 from collections import Counter
 
-veggies = ["Spinach", "Kale", "Carrot", "Bell Pepper", "Celery", "Lettuce", "Onion", "Broccoli"]  # 8
-carbs = ["White Bread", "Spaghetti", "Bagel", "Tortilla", "Rice", "Cracker", "Waffle", "Oatmeal"]
-proteins = ["Beef", "Pork", "Ham", "Bacon", "Shrimp", "Lobster"]  # 6
-dairy = []
-fruits = ["Apple", "Grape", "Strawberry", "Pear", "Tomato", "Kiwi"]  # 6
-sauces = ["Ranch", "Caesar", "Tabasco", "Balsamic Vinegar"]  # 4
-spices = []
+veggies = ["Carrot", "Celery", "Lettuce", "Broccoli"]
+carbs = ["Spaghetti", "Rice", "Cracker", "Waffle"]
+proteins = ["Beef", "Pork", "Ham", "Bacon"]
+dairy = ["Milk", "Yogurt", "Cheese", "Soy Beverage"]
+fruits = ["Apple", "Strawberry", "Pear", "Tomato"]
+sauces = ["Ranch", "Caesar", "Tabasco", "Balsamic Vinegar"]
+spices = ["Thyme", "Paprika", "Basil", "Chives"]
 
 categories = {
     "veggies": veggies,
