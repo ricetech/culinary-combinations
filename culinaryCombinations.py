@@ -2,7 +2,7 @@
 # Eric Chen and Janakitti Rantana-Rueangsri
 # For MDM4UE-B, Ms. S. Sajan
 
-from random import randint
+from random import randint, choice
 from collections import Counter
 
 veggies = ["Spinach", "Kale", "Carrot", "Bell Pepper", "Celery", "Lettuce", "Onion", "Broccoli"]  # 8
