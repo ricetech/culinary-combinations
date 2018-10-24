@@ -95,6 +95,8 @@ class Contestant:
         # Check to see if contestant landed on a particular type of tile (defined at the top of code)
         if self.pos in pantryTiles:
             print(self.name, "landed on tile number", str(self.pos) + ", which is a Pantry Tile.")
+            if not speedRun:
+                sleep(1)
             self.pantry_tile()
         elif self.pos in actionTiles:
             print(self.name, "landed on tile number", str(self.pos) + ", which is an Action Tile.")
@@ -150,7 +152,7 @@ def chef_request():
         # Add this ingredient to the request
         chefRequest.append(currentIngredient)
         # Remove this ingredient from the bank (to avoid requests with duplicate ingredients)
-        ingredientBank.pop(currentIngredient)
+        ingredientBank.pop(ingredientBank.index(currentIngredient))
 
 
 def action_tile():
@@ -160,12 +162,13 @@ def action_tile():
 def print_scoreboard():
     global scoreboard
     scoreboard = sorted(contestants, key=lambda x: x.points, reverse=True)
-    input("Press Enter to continue to the scoreboard.\n")
+    if not speedRun:
+        input("Press Enter to continue to the scoreboard.")
     print("\nSCOREBOARD:\n"
-          "Contestant:             Points Added: Points:")
+          "Contestant:              Points Added: Points:")
     for s in scoreboard:
         # This code creates a table with formatted lines.
-        print(("{}...".format(s.name[:23]) if len(s.name) > 22 else s.name).ljust(22) + " "
+        print(("{}...".format(s.name[:20]) if len(s.name) > 20 else s.name).ljust(23) + " "
               + " " + str(s.pointsGained) + "             " + str(s.points))
 
 
@@ -197,14 +200,18 @@ while True:
         print("Chef Request for this round: \n"
               "Type:", chefRequestType, "\n"
               "Contents:", chefRequest)
+
+        if not speedRun:
+            input("Press Enter when the all contestants have read the request.\n")
         # Each player gets the number of turns as defined in chefRequestTypes at the top
         for turn in range(chefRequestTypes[chefRequestType]):
             for c in contestants:
                 c.round_actions()
 
         # At the end of the round:
-        input("End of Round. Press Enter to continue to the Round Summary.\n")
-        print("ROUND SUMMARY:")
+        if not speedRun:
+            input("\nEnd of Round. Press Enter to continue to the Round Summary.")
+        print("\nROUND SUMMARY:")
         for c in contestants:
             print(c.name + ":")
 
@@ -240,6 +247,8 @@ while True:
 
         print_scoreboard()
         print("\n== End of Round ==\n")
+        if not speedRun:
+            input("Press Enter to continue to the next Round.\n")
     print("WINNER: " + scoreboard[0].name + " with " + str(scoreboard[0].points) + " points!")
     print("\nPlay again?\n"
           "1: Yes\n"
