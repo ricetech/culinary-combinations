@@ -21,12 +21,20 @@ ingredients = (
 
 # Dictionary of types of chef requests. The value is the max number of turns in each round when that type is active.
 # The value is also the number of ingredients picked.
-# IMPROVE: Change into a class or tuple
 chefRequestTypes = {
     "salad": 4,
     "sandwich": 2,
 }
 
+# Instantiate all types of chef requests.
+# One tuple per type.
+# Valid types: "c" (Combinations) or "p" (Permutations)
+# Syntax:
+# name = (name, type (see above), maxTurns, pointsIndex[0], pointsIndex[1], ... , pointsIndex[n])
+
+# Define points gained per match
+saladPoints = [0, 20, 8, 6, 1]
+sandwichPoints = [0, 30, 6]
 # Define number of rounds per game
 roundLimit = 5
 
@@ -44,9 +52,24 @@ aiContestantCounter = 1
 scoreboard = []
 
 
+class ChefRequest:
+    name = ""
+    type = ""
+    maxTurns = 0
+    pointsIndex = []
+
+    def __init__(self, data):
+        self.name = data[0]
+        self.type = data[1]
+        self.maxTurns = data[3]
+        for i in range(4, len(data)):
+            self.pointsIndex.append(data[i])
+
+
 class Contestant:
     name = ""  # Display name
     points = 0  # Overall tally of points
+    matches = 0
     pointsGained = 0  # Points gained in that round (resets every round)
     pos = 1  # Starting tile
     pantry = []  # Ingredients picked from here
@@ -69,6 +92,7 @@ class Contestant:
         # Reset the pantry, kitchen, and points gained.
         self.pantry = list(ingredients)
         self.kitchen = []
+        self.matches = 0
         self.pointsGained = 0
 
     def round_actions(self):
@@ -160,6 +184,7 @@ def action_tile():
 
 
 def print_scoreboard():
+    # IMPROVEMENT: Add per-round column
     global scoreboard
     scoreboard = sorted(contestants, key=lambda x: x.points, reverse=True)
     if not speedRun:
@@ -168,8 +193,12 @@ def print_scoreboard():
           "Contestant:              Points Added: Points:")
     for s in scoreboard:
         # This code creates a table with formatted lines.
+        if s.pointsGained < 10:
+            pointsGained = str(s.pointsGained) + " "
+        else:
+            pointsGained = s.pointsGained
         print(("{}...".format(s.name[:20]) if len(s.name) > 20 else s.name).ljust(23) + " "
-              + " " + str(s.pointsGained) + "             " + str(s.points))
+              + " " + str(pointsGained) + "            " + str(s.points))
 
 
 # Main code
@@ -220,8 +249,10 @@ while True:
                 for item in chefRequest:
                     # See if the item in the chef request is anywhere in the contestant's kitchen
                     if item in c.kitchen:
-                        c.pointsGained += 1
-                        print("Gained 1 point for matching", item, "to the chef's request.")
+                        c.matches += 1
+                        print("Matched", item, "to the chef's request.")
+                c.pointsGained = saladPoints[c.matches]
+                c.points += c.pointsGained
 
             # Scorekeeper for permutations
             elif chefRequestType == "sandwich":
@@ -229,15 +260,18 @@ while True:
                     try:
                         # See if the item in the chef request is in the same position in the contestant's kitchen
                         if chefRequest[index] == c.kitchen[index]:
-                            c.pointsGained += 1
-                            print("Gained 1 point for matching", chefRequest[index],
+                            c.matches += 1
+                            print("Matched", chefRequest[index],
                                   "to the chef's request in position", str(index + 1) + ".")
 
                     # This error is raised if the item is not found
                     except IndexError:
                         continue
+                c.pointsGained = saladPoints[c.matches]
+                c.points += c.pointsGained
+                # IMPROVEMENT: Add back # of matches and point summary
 
-            if c.pointsGained == 0:
+            elif c.pointsGained == 0:
                 print("Did not win any points this round.")
 
             # IMPROVEMENT: Add ties
