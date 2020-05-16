@@ -1,7 +1,6 @@
 # Culinary Combinations
 # This code simulates our board game, which uses combinations, permutations, and probability.
-# Eric Chen and Janakitti Rantana-Rueangsri
-# For MDM4UE-B, Ms. S. Sajan
+# Eric C. and Janakitti R.
 
 from random import randint
 from time import sleep
